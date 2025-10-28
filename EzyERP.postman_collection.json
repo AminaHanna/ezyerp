@@ -1,0 +1,1215 @@
+{
+	"info": {
+		"_postman_id": "d5a0708f-45e6-4293-9f32-fb9b7e221e93",
+		"name": "EzyERP",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "4397764",
+		"_collection_link": "https://red-crater-43700.postman.co/workspace/Team-Workspace~62a56e33-eee4-4d2c-8b4e-193b9b0a7ce7/collection/4397764-d5a0708f-45e6-4293-9f32-fb9b7e221e93?action=share&source=collection_link&creator=4397764"
+	},
+	"item": [
+		{
+			"name": "Customer",
+			"item": [
+				{
+					"name": "CustomerStatment",
+					"request": {
+						"method": "GET",
+						"header": []
+					},
+					"response": []
+				},
+				{
+					"name": "Collections",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "officeid",
+									"value": "1",
+									"type": "text"
+								},
+								{
+									"key": "empid",
+									"value": "",
+									"type": "text"
+								},
+								{
+									"key": "financialyearid",
+									"value": "",
+									"type": "text"
+								},
+								{
+									"key": "officecode",
+									"value": "",
+									"type": "text"
+								},
+								{
+									"key": "sdate",
+									"value": "",
+									"type": "text"
+								},
+								{
+									"key": "edate",
+									"value": "",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "https://ezyerp.ezyplus.in/collections.php",
+							"protocol": "http",
+							"host": [
+								"app",
+								"ezyerp",
+								"live"
+							],
+							"path": [
+								"collections.php"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "SignIn&SingUp",
+			"item": [
+				{
+					"name": "Login",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "username",
+									"value": "admin",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "1234",
+									"type": "text"
+								},
+								{
+									"key": "officecode",
+									"value": "WF01",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{base_url}}login.php",
+							"host": [
+								"{{base_url}}login",
+								"php"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "SignUp",
+					"request": {
+						"method": "POST",
+						"header": []
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Other",
+			"item": [
+				{
+					"name": "Counter List",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "officecode",
+									"value": "RD01",
+									"type": "text"
+								},
+								{
+									"key": "officeid",
+									"value": "1",
+									"type": "text"
+								},
+								{
+									"key": "employeeid",
+									"value": "1",
+									"type": "text"
+								},
+								{
+									"key": "usertypeid",
+									"value": "1",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "https://ezyerp.ezyplus.in/counterlist.php",
+							"protocol": "http",
+							"host": [
+								"app",
+								"ezyerp",
+								"live"
+							],
+							"path": [
+								"counterlist.php"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Financial Year",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "officecode",
+									"value": "RD01",
+									"type": "text"
+								},
+								{
+									"key": "officeid",
+									"value": "1",
+									"type": "text"
+								},
+								{
+									"key": "employeeid",
+									"value": "1",
+									"type": "text"
+								},
+								{
+									"key": "usertypeid",
+									"value": "1",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "https://ezyerp.ezyplus.in/financialyears.php",
+							"protocol": "http",
+							"host": [
+								"app",
+								"ezyerp",
+								"live"
+							],
+							"path": [
+								"financialyears.php"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Common Privilege",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "officecode",
+									"value": "RD01",
+									"type": "text"
+								},
+								{
+									"key": "officeid",
+									"value": "1",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "https://ezyerp.ezyplus.in/commonprivileges.php",
+							"protocol": "http",
+							"host": [
+								"app",
+								"ezyerp",
+								"live"
+							],
+							"path": [
+								"commonprivileges.php"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Privileges",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "officecode",
+									"value": "RD01",
+									"type": "text"
+								},
+								{
+									"key": "officeid",
+									"value": "1",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "https://ezyerp.ezyplus.in/commonprivileges.php",
+							"protocol": "http",
+							"host": [
+								"app",
+								"ezyerp",
+								"live"
+							],
+							"path": [
+								"commonprivileges.php"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Master",
+			"item": [
+				{
+					"name": "Units",
+					"item": [
+						{
+							"name": "New Unit",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "officecode",
+											"value": "RD01",
+											"type": "text"
+										},
+										{
+											"key": "officeid",
+											"value": "1",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "https://ezyerp.ezyplus.in/newunit.php",
+									"protocol": "http",
+									"host": [
+										"app",
+										"ezyerp",
+										"live"
+									],
+									"path": [
+										"newunit.php"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Sales",
+			"item": [
+				{
+					"name": "Customer List",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "officeid",
+									"value": "1",
+									"type": "text"
+								},
+								{
+									"key": "officecode",
+									"value": "WF01",
+									"type": "text"
+								},
+								{
+									"key": "financialyearid",
+									"value": "2",
+									"type": "text"
+								},
+								{
+									"key": "empid",
+									"value": "2",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{base_url}}customers.php",
+							"host": [
+								"{{base_url}}customers",
+								"php"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Sales Items",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "officeid",
+									"value": "1",
+									"type": "text"
+								},
+								{
+									"key": "officecode",
+									"value": "RD01",
+									"type": "text"
+								},
+								{
+									"key": "financialyearid",
+									"value": "1",
+									"type": "text"
+								},
+								{
+									"key": "column",
+									"value": "0",
+									"type": "text"
+								},
+								{
+									"key": "barcode",
+									"value": "h",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "https://ezyerp.ezyplus.in/salesitems.php",
+							"protocol": "http",
+							"host": [
+								"app",
+								"ezyerp",
+								"live"
+							],
+							"path": [
+								"salesitems.php"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Customer Brand Discount",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "officeid",
+									"value": "1",
+									"type": "text"
+								},
+								{
+									"key": "officecode",
+									"value": "RD01",
+									"type": "text"
+								},
+								{
+									"key": "customerid",
+									"value": "1",
+									"type": "text"
+								},
+								{
+									"key": "brandid",
+									"value": "1",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "https://ezyerp.ezyplus.in/customerbranddiscount.php",
+							"protocol": "http",
+							"host": [
+								"app",
+								"ezyerp",
+								"live"
+							],
+							"path": [
+								"customerbranddiscount.php"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Sales Accounts",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "officecode",
+									"value": "RD01",
+									"type": "text"
+								},
+								{
+									"key": "officeid",
+									"value": "1",
+									"type": "text"
+								},
+								{
+									"key": "financialyearid",
+									"value": "1",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "https://ezyerp.ezyplus.in/salesaccounts.php",
+							"protocol": "http",
+							"host": [
+								"app",
+								"ezyerp",
+								"live"
+							],
+							"path": [
+								"salesaccounts.php"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Price Type",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "officecode",
+									"value": "RD01",
+									"type": "text"
+								},
+								{
+									"key": "officeid",
+									"value": "1",
+									"type": "text"
+								},
+								{
+									"key": "financialyearid",
+									"value": "1",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "https://ezyerp.ezyplus.in/PriceType.php",
+							"protocol": "http",
+							"host": [
+								"app",
+								"ezyerp",
+								"live"
+							],
+							"path": [
+								"PriceType.php"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Employees",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "officecode",
+									"value": "RD01",
+									"type": "text"
+								},
+								{
+									"key": "officeid",
+									"value": "1",
+									"type": "text"
+								},
+								{
+									"key": "financialyearid",
+									"value": "1",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "https://ezyerp.ezyplus.in/salesman.php",
+							"protocol": "http",
+							"host": [
+								"app",
+								"ezyerp",
+								"live"
+							],
+							"path": [
+								"salesman.php"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "New Sales",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "\r\n  {  \"officecode\":\"RD01\",\r\n\"officeid\":1,\r\n\"financialyearid\":1,\r\n\"gstck\":1,\r\n\"billtype\":\"GST\"\r\n\"items\":[\r\n    {\"productId\":1,\"productname\":\"Pen\",\"price\":100.00}\r\n]\r\n  }\r\n"
+						},
+						"url": {
+							"raw": "https://ezyerp.ezyplus.in/newsales.php",
+							"protocol": "http",
+							"host": [
+								"app",
+								"ezyerp",
+								"live"
+							],
+							"path": [
+								"newsales.php"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Receipt",
+			"item": [
+				{
+					"name": "Receipt List",
+					"request": {
+						"method": "POST",
+						"header": []
+					},
+					"response": []
+				},
+				{
+					"name": "New Receipt",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "officecode",
+									"value": "WF01",
+									"type": "text"
+								},
+								{
+									"key": "officeid",
+									"value": "1",
+									"type": "text"
+								},
+								{
+									"key": "financialyearid",
+									"value": "2",
+									"type": "text"
+								},
+								{
+									"key": "rdate",
+									"value": "120",
+									"type": "text"
+								},
+								{
+									"key": "empid",
+									"value": "1",
+									"type": "text"
+								},
+								{
+									"key": "empidc",
+									"value": "",
+									"type": "text"
+								},
+								{
+									"key": "payment",
+									"value": "",
+									"type": "text"
+								},
+								{
+									"key": "amount",
+									"value": "",
+									"type": "text"
+								},
+								{
+									"key": "customerid",
+									"value": "",
+									"type": "text"
+								},
+								{
+									"key": "chequeno",
+									"value": "",
+									"type": "text"
+								},
+								{
+									"key": "chequedate",
+									"value": "",
+									"type": "text"
+								},
+								{
+									"key": "remarks",
+									"value": "",
+									"type": "text"
+								},
+								{
+									"key": "custledger",
+									"value": "",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://ezyerp.ezyplus.in/newreceipt.php",
+							"protocol": "http",
+							"host": [
+								"ezyerp",
+								"ezyplus",
+								"in"
+							],
+							"path": [
+								"newreceipt.php"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Change Password",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "username",
+							"value": "admin",
+							"type": "text"
+						},
+						{
+							"key": "password",
+							"value": "1234",
+							"type": "text"
+						},
+						{
+							"key": "officecode",
+							"value": "RD01",
+							"type": "text"
+						},
+						{
+							"key": "officeid",
+							"value": "1",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "https://ezyerp.ezyplus.in/changepassword.php",
+					"protocol": "http",
+					"host": [
+						"app",
+						"ezyerp",
+						"live"
+					],
+					"path": [
+						"changepassword.php"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Areas",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "officecode",
+							"value": "WF01",
+							"type": "text"
+						},
+						{
+							"key": "officeid",
+							"value": "1",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{base_url}}areas.php",
+					"host": [
+						"{{base_url}}areas",
+						"php"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Stocks",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "officecode",
+							"value": "WF01",
+							"type": "text"
+						},
+						{
+							"key": "officeid",
+							"value": "1",
+							"type": "text"
+						},
+						{
+							"key": "financialyearid",
+							"value": "2",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{base_url}}stocks.php",
+					"host": [
+						"{{base_url}}stocks",
+						"php"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Collections",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "officecode",
+							"value": "WF01",
+							"type": "text"
+						},
+						{
+							"key": "officeid",
+							"value": "1",
+							"type": "text"
+						},
+						{
+							"key": "empid",
+							"value": "1",
+							"type": "text"
+						},
+						{
+							"key": "financialyearid",
+							"value": "2",
+							"type": "text"
+						},
+						{
+							"key": "sdate",
+							"value": "2025-09-01",
+							"type": "text"
+						},
+						{
+							"key": "edate",
+							"value": "2025-09-30",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{base_url}}/collections.php",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"collections.php"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Customer Statement",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "officecode",
+							"value": "WF01",
+							"type": "text"
+						},
+						{
+							"key": "officeid",
+							"value": "1",
+							"type": "text"
+						},
+						{
+							"key": "customerid",
+							"value": "120",
+							"type": "text"
+						},
+						{
+							"key": "financialyearid",
+							"value": "2",
+							"type": "text"
+						},
+						{
+							"key": "sdate",
+							"value": "2025-04-01",
+							"type": "text"
+						},
+						{
+							"key": "edate",
+							"value": "2025-05-30",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{base_url}}customerstatement.php",
+					"host": [
+						"{{base_url}}customerstatement",
+						"php"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Ledgers",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "officecode",
+							"value": "WF01",
+							"type": "text"
+						},
+						{
+							"key": "officeid",
+							"value": "1",
+							"type": "text"
+						},
+						{
+							"key": "financialyearid",
+							"value": "1",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{base_url}}ledgers.php",
+					"host": [
+						"{{base_url}}ledgers",
+						"php"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Credit Aging Report",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "officecode",
+							"value": "WF01",
+							"type": "text"
+						},
+						{
+							"key": "officeid",
+							"value": "1",
+							"type": "text"
+						},
+						{
+							"key": "customerid",
+							"value": "5",
+							"type": "text"
+						},
+						{
+							"key": "financialyearid",
+							"value": "2",
+							"type": "text"
+						},
+						{
+							"key": "noofdays",
+							"value": "",
+							"type": "text"
+						},
+						{
+							"key": "condition",
+							"value": "",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{base_url}}creditagingreport.php",
+					"host": [
+						"{{base_url}}creditagingreport",
+						"php"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "New Collection",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "officecode",
+							"value": "RD01",
+							"type": "text"
+						},
+						{
+							"key": "officeid",
+							"value": "1",
+							"type": "text"
+						},
+						{
+							"key": "financialyearid",
+							"value": "",
+							"type": "text"
+						},
+						{
+							"key": "rdate",
+							"value": "120",
+							"type": "text"
+						},
+						{
+							"key": "empid",
+							"value": "1",
+							"type": "text"
+						},
+						{
+							"key": "empidc",
+							"value": "",
+							"type": "text"
+						},
+						{
+							"key": "payment",
+							"value": "",
+							"type": "text"
+						},
+						{
+							"key": "amount",
+							"value": "",
+							"type": "text"
+						},
+						{
+							"key": "customerid",
+							"value": "",
+							"type": "text"
+						},
+						{
+							"key": "chequeno",
+							"value": "",
+							"type": "text"
+						},
+						{
+							"key": "chequedate",
+							"value": "",
+							"type": "text"
+						},
+						{
+							"key": "remarks",
+							"value": "",
+							"type": "text"
+						},
+						{
+							"key": "custledger",
+							"value": "",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "https://ezyerp.ezyplus.in/newcollection.php",
+					"protocol": "http",
+					"host": [
+						"app",
+						"ezyerp",
+						"live"
+					],
+					"path": [
+						"newcollection.php"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "User Dashboard",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "officecode",
+							"value": "WF01",
+							"type": "text"
+						},
+						{
+							"key": "officeid",
+							"value": "1",
+							"type": "text"
+						},
+						{
+							"key": "financialyearid",
+							"value": "2",
+							"type": "text"
+						},
+						{
+							"key": "empid",
+							"value": "2",
+							"type": "text"
+						},
+						{
+							"key": "sdate",
+							"value": "2025-09-01",
+							"type": "text"
+						},
+						{
+							"key": "edate",
+							"value": "2025-09-30",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{base_url}}userdashbord.php",
+					"host": [
+						"{{base_url}}userdashbord",
+						"php"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"requests": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"requests": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "base_url",
+			"value": ""
+		}
+	]
+}

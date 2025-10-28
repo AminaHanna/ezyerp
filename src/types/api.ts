@@ -1,0 +1,319 @@
+// API Response Types
+export interface LoginResponse {
+  flag: boolean;
+  msg: string;
+  employee?: {
+    empid?: string;
+    empname?: string;
+    officeid?: string;
+    officecode?: string;
+    token?: string;
+    sessionid?: string;
+  };
+  error?: string;
+}
+
+export interface Customer {
+  // Primary identifiers
+  customerid: string;
+  account_id: string;
+  chartofaccountid: string;
+  cust_balid: string;
+  customeraccountid: string;
+
+  // Names and contact
+  customer_name: string;
+  account_name: string;
+  contact_person?: string;
+
+  // Address and location
+  address?: string;
+  place?: string;
+  area_name?: string;
+  areaid?: string;
+  areas?: string;
+  state_id?: string;
+
+  // Contact information
+  mobileno?: string;
+  emailid?: string;
+  whatsappno?: string;
+
+  // Financial information
+  amount?: string | number;
+  ca_amount?: string | number;
+  currbalance?: string | number;
+
+  // Additional fields
+  employeeid?: string;
+  status?: string;
+  join_date?: string;
+  openinginv?: string;
+  ourbranch?: string;
+  refno?: string | null;
+  remarks?: string;
+  gender?: string;
+  gstno?: string;
+  latitude?: number | null;
+  longitude?: number | null;
+  chartofaccount_bal_id?: string;
+
+  // Legacy fields for backward compatibility
+  id?: string;
+  name?: string;
+  day?: string;
+  balance?: number;
+  officeid?: string;
+  officecode?: string;
+}
+
+export interface CustomersResponse {
+  flag: boolean;
+  msg: string;
+  customers?: Customer[];
+  error?: string;
+}
+
+export interface SalesItem {
+  id: string;
+  productId: string;
+  productname: string;
+  price: number;
+  barcode?: string;
+}
+
+export interface SalesItemsResponse {
+  flag: boolean;
+  msg: string;
+  items?: SalesItem[];
+  error?: string;
+}
+
+export interface Collection {
+  id: string;
+  amount: number;
+  date: string;
+  customerid: string;
+  customername: string;
+}
+
+export interface CollectionsResponse {
+  flag: boolean;
+  msg: string;
+  collections?: Collection[];
+  error?: string;
+}
+
+export interface Stock {
+  id: string;
+  productname: string;
+  quantity: number;
+  price: number;
+  mrp?: number;
+  rate?: number;
+  brand?: string;
+  category?: string;
+}
+
+export interface StocksResponse {
+  flag: boolean;
+  msg: string;
+  stocks?: Stock[];
+  error?: string;
+}
+
+export interface Receipt {
+  id: string;
+  amount: number;
+  date: string;
+  customerid: string;
+  paymentmethod: string;
+}
+
+export interface ReceiptsResponse {
+  flag: boolean;
+  msg: string;
+  receipts?: Receipt[];
+  error?: string;
+}
+
+export interface FinancialYear {
+  id: string;
+  name: string;
+  startdate: string;
+  enddate: string;
+}
+
+export interface FinancialYearsResponse {
+  flag: boolean;
+  msg: string;
+  years?: FinancialYear[];
+  error?: string;
+}
+
+export interface Area {
+  // Primary fields
+  id?: string;
+  name?: string;
+  code?: string;
+
+  // Alternative field names that might be in API response
+  areaid?: string;
+  areaname?: string;
+  area_id?: string;
+  area_name?: string;
+  area_code?: string;
+
+  // Legacy/flexible fields
+  [key: string]: any;
+}
+
+export interface AreasResponse {
+  flag: boolean;
+  msg: string;
+  areas?: Area[];
+  data?: Area[];
+  error?: string;
+}
+
+export interface Employee {
+  id: string;
+  name: string;
+  code: string;
+  designation: string;
+}
+
+export interface EmployeesResponse {
+  flag: boolean;
+  msg: string;
+  employees?: Employee[];
+  error?: string;
+}
+
+export interface CustomerStatement {
+  // Primary identifiers - ACTUAL API FIELD NAMES
+  expincId?: string;
+  id?: string;
+  transactionid?: string;
+  voucherid?: string;
+
+  // Date and type - ACTUAL API FIELD NAMES
+  pur_date?: string;
+  date?: string;
+  transactiondate?: string;
+  voucherdate?: string;
+
+  // Description and type - ACTUAL API FIELD NAMES
+  alltype?: string;
+  alltypes?: string;
+  pinvtype?: string;
+  description?: string;
+  type?: string;
+  vouchertype?: string;
+  narration?: string;
+
+  // Financial amounts - ACTUAL API FIELD NAMES
+  incout?: number | string;  // Debit/Income Out
+  expin?: number | string;   // Credit/Expense In
+  incout1?: number | string; // Alternative debit
+  incin1?: number | string;  // Alternative credit
+  expout?: number | string;  // Alternative debit
+  ob?: number | string;      // Opening Balance
+  debit?: number | string;
+  credit?: number | string;
+  balance?: number | string;
+  amount?: number | string;
+
+  // Additional fields that might be in response
+  customer_name?: string;
+  invoice?: string;
+  pinvoice?: string;
+  chequeno?: string;
+  ch_date?: string;
+  reference?: string;
+  paymentmethod?: string;
+  remarks?: string;
+  status?: string;
+
+  // Legacy/flexible fields
+  [key: string]: any;
+}
+
+export interface CustomerStatementResponse {
+  flag: boolean;
+  msg: string;
+  statement?: CustomerStatement[];
+  statements?: CustomerStatement[];
+  data?: CustomerStatement[];
+  error?: string;
+}
+
+export interface CreditAgingReport {
+  customerid: string;
+  customername: string;
+  outstanding: number;
+  days: number;
+  category: string;
+}
+
+export interface CreditAgingResponse {
+  flag: boolean;
+  msg: string;
+  report?: CreditAgingReport[];
+  error?: string;
+}
+
+// Auth Context Types
+export interface AuthUser {
+  userid: string;
+  username: string;
+  officeid: string;
+  officecode: string;
+  token?: string;
+  sessionid?: string;
+}
+
+export interface AuthContextType {
+  user: AuthUser | null;
+  isLoading: boolean;
+  isAuthenticated: boolean;
+  login: (username: string, password: string, officecode: string) => Promise<void>;
+  logout: () => void;
+  error: string | null;
+}
+
+// API Request Types
+export interface LoginRequest {
+  username: string;
+  password: string;
+  officecode: string;
+}
+
+export interface CustomersRequest {
+  officeid: string;
+  officecode: string;
+  financialyearid: string;
+  empid: string;
+}
+
+export interface CollectionsRequest {
+  officecode: string;
+  officeid: string;
+  empid: string;
+  financialyearid: string;
+  sdate: string;
+  edate: string;
+}
+
+export interface StocksRequest {
+  officecode: string;
+  officeid: string;
+  financialyearid: string;
+}
+
+export interface ReceiptsRequest {
+  officecode: string;
+  officeid: string;
+  financialyearid: string;
+}
+

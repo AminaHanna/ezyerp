@@ -1,13 +1,17 @@
-import { useState, useEffect, useCallback } from "react";
-import { Package, AlertCircle, Loader } from "lucide-react";
+import { useState, useEffect, useCallback, useMemo } from "react";
+import { Package, AlertCircle, Loader, Search, X } from "lucide-react";
 import { BottomNavigation } from "@/components/BottomNavigation";
 import { useApi } from "@/hooks/useApi";
 import { reportsService } from "@/services/ezyerpService";
 import { useUserSession } from "@/hooks/useUserSession";
+import { Input } from "@/components/ui/input";
+import { Card } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
 
 const Stocks = () => {
   const [financialYearId] = useState("2");
   const { officeid, officecode } = useUserSession();
+  const [searchQuery, setSearchQuery] = useState("");
 
   // Create stable API function using useCallback
   const getStocksFunction = useCallback(
@@ -49,6 +53,35 @@ const Stocks = () => {
 
   const stocks = data?.stocks || [];
 
+  // Filter stocks based on search query
+  const filteredStocks = useMemo(() => {
+    if (!searchQuery.trim()) return stocks;
+
+    const query = searchQuery.toLowerCase();
+    return stocks.filter(
+      (stock) =>
+        (stock.productname || "").toLowerCase().includes(query) ||
+        (stock.brand || "").toLowerCase().includes(query) ||
+        (stock.category || "").toLowerCase().includes(query)
+    );
+  }, [stocks, searchQuery]);
+
+  // Get stock status badge
+  const getStockStatus = (quantity: number | undefined) => {
+    const qty = quantity || 0;
+    if (qty === 0) return { label: "Out of Stock", color: "destructive" };
+    if (qty < 10) return { label: "Low Stock", color: "warning" };
+    return { label: "In Stock", color: "default" };
+  };
+
+  // Get stock status icon color
+  const getStatusColor = (quantity: number | undefined) => {
+    const qty = quantity || 0;
+    if (qty === 0) return "text-red-600";
+    if (qty < 10) return "text-yellow-600";
+    return "text-green-600";
+  };
+
   return (
     <div className="min-h-screen bg-background pb-20">
       {/* Header */}
@@ -56,10 +89,34 @@ const Stocks = () => {
         <div className="px-4 py-4">
           <h1 className="text-2xl font-bold">Stocks</h1>
           <p className="text-sm text-primary-foreground/80 mt-1">
-            {isLoading ? "Loading..." : `${stocks.length} items`}
+            {isLoading ? "Loading..." : `${filteredStocks.length} of ${stocks.length} items`}
           </p>
         </div>
       </header>
+
+      {/* Search Box */}
+      {!isLoading && !error && stocks.length > 0 && (
+        <div className="px-4 py-3 bg-card border-b border-border sticky top-16 z-30">
+          <div className="relative">
+            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-muted-foreground" />
+            <Input
+              type="text"
+              placeholder="Search by product name, brand, or category..."
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              className="pl-10 pr-10"
+            />
+            {searchQuery && (
+              <button
+                onClick={() => setSearchQuery("")}
+                className="absolute right-3 top-1/2 transform -translate-y-1/2 text-muted-foreground hover:text-foreground"
+              >
+                <X className="w-4 h-4" />
+              </button>
+            )}
+          </div>
+        </div>
+      )}
 
       {/* Loading State */}
       {isLoading && (
@@ -89,73 +146,69 @@ const Stocks = () => {
         </div>
       )}
 
+      {/* No Search Results */}
+      {!isLoading && !error && stocks.length > 0 && filteredStocks.length === 0 && (
+        <div className="flex flex-col items-center justify-center px-4 py-20">
+          <Package className="w-20 h-20 text-muted-foreground mb-4" />
+          <h2 className="text-xl font-bold text-foreground mb-2">No Results Found</h2>
+          <p className="text-center text-muted-foreground">
+            No stocks match your search query
+          </p>
+        </div>
+      )}
+
       {/* Stocks List */}
-      {!isLoading && !error && stocks.length > 0 && (
+      {!isLoading && !error && filteredStocks.length > 0 && (
         <div className="px-4 py-6 space-y-3">
-          {stocks.map((stock, index) => (
-            <div
-              key={index}
-              className="bg-card rounded-lg p-4 shadow-sm border border-border hover:shadow-md transition-shadow"
-            >
-              {/* Product Header */}
-              <div className="mb-3">
-                <h3 className="font-semibold text-foreground text-sm mb-1 line-clamp-2">
-                  {stock.productname || "N/A"}
-                </h3>
-                <div className="flex gap-2 flex-wrap">
-                  {stock.brand && (
-                    <span className="inline-block bg-primary/10 text-primary text-xs px-2 py-1 rounded">
-                      {stock.brand}
-                    </span>
-                  )}
-                  {stock.category && (
-                    <span className="inline-block bg-secondary/10 text-secondary text-xs px-2 py-1 rounded">
-                      {stock.category}
-                    </span>
-                  )}
-                </div>
-              </div>
+          {filteredStocks.map((stock, index) => {
+            const status = getStockStatus(stock.quantity);
+            const statusColor = getStatusColor(stock.quantity);
 
-              {/* Stock Details Grid */}
-              <div className="grid grid-cols-2 gap-3 mb-3">
-                {/* Quantity */}
-                <div className="bg-background rounded p-2">
-                  <p className="text-xs text-muted-foreground">Quantity</p>
-                  <p className="font-semibold text-foreground text-sm">{stock.quantity || 0}</p>
-                </div>
-
-                {/* Price */}
-                <div className="bg-background rounded p-2">
-                  <p className="text-xs text-muted-foreground">Price</p>
-                  <p className="font-semibold text-foreground text-sm">₹ {stock.price || 0}</p>
-                </div>
-
-                {/* Rate */}
-                {stock.rate && (
-                  <div className="bg-background rounded p-2">
-                    <p className="text-xs text-muted-foreground">Rate</p>
-                    <p className="font-semibold text-foreground text-sm">₹ {stock.rate}</p>
+            return (
+              <Card
+                key={index}
+                className="p-4 border-l-4 border-l-primary hover:shadow-md transition-shadow"
+              >
+                {/* Product Header with Status */}
+                <div className="flex items-start justify-between gap-3 mb-3">
+                  <div className="flex-1">
+                    <h3 className="font-semibold text-foreground text-base mb-2 line-clamp-2">
+                      {stock.productname || "N/A"}
+                    </h3>
+                    <div className="flex gap-2 flex-wrap">
+                      {stock.brand && (
+                        <Badge variant="secondary" className="text-xs">
+                          {stock.brand}
+                        </Badge>
+                      )}
+                      {stock.category && (
+                        <Badge variant="outline" className="text-xs">
+                          {stock.category}
+                        </Badge>
+                      )}
+                    </div>
                   </div>
-                )}
-
-                {/* MRP */}
-                {stock.mrp && (
-                  <div className="bg-background rounded p-2">
-                    <p className="text-xs text-muted-foreground">MRP</p>
-                    <p className="font-semibold text-foreground text-sm">₹ {stock.mrp}</p>
+                  <div className="text-right">
+                    <Badge
+                      variant={status.color as any}
+                      className={`text-xs ${statusColor}`}
+                    >
+                      {status.label}
+                    </Badge>
                   </div>
-                )}
-              </div>
+                </div>
 
-              {/* Total Value */}
-              <div className="bg-primary/10 rounded-lg px-3 py-2">
-                <p className="text-xs text-muted-foreground">Total Value</p>
-                <p className="font-bold text-primary">
-                  ₹ {((stock.quantity || 0) * (stock.price || 0)).toFixed(2)}
-                </p>
-              </div>
-            </div>
-          ))}
+                {/* Quantity Display */}
+                <div className="bg-gradient-to-r from-primary/10 to-primary/5 rounded-lg px-3 py-3">
+                  <p className="text-xs text-muted-foreground mb-1">Available Quantity</p>
+                  <p className={`font-bold text-2xl ${statusColor}`}>
+                    {stock.quantity || 0}
+                  </p>
+                  <p className="text-xs text-muted-foreground mt-1">units in stock</p>
+                </div>
+              </Card>
+            );
+          })}
         </div>
       )}
 

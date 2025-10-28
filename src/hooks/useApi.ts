@@ -1,4 +1,4 @@
-import { useState, useCallback } from "react";
+import { useState, useCallback, useRef } from "react";
 import { useAuth } from "@/contexts/AuthContext";
 
 interface UseApiState<T> {
@@ -32,13 +32,21 @@ export const useApi = <T,>(
 
   const { logout } = useAuth();
 
+  // Store callbacks in refs to avoid dependency array issues
+  const onSuccessRef = useRef(onSuccess);
+  const onErrorRef = useRef(onError);
+
+  // Update refs when callbacks change
+  onSuccessRef.current = onSuccess;
+  onErrorRef.current = onError;
+
   const execute = useCallback(async () => {
     setState({ data: null, isLoading: true, error: null });
 
     try {
       const result = await apiFunction();
       setState({ data: result, isLoading: false, error: null });
-      onSuccess?.(result);
+      onSuccessRef.current?.(result);
     } catch (err) {
       const errorMessage = err instanceof Error ? err.message : "An error occurred";
 
@@ -48,9 +56,9 @@ export const useApi = <T,>(
       }
 
       setState({ data: null, isLoading: false, error: errorMessage });
-      onError?.(errorMessage);
+      onErrorRef.current?.(errorMessage);
     }
-  }, [apiFunction, onSuccess, onError, logout]);
+  }, [apiFunction, logout]);
 
   const reset = useCallback(() => {
     setState({ data: null, isLoading: false, error: null });

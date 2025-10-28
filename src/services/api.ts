@@ -79,7 +79,23 @@ class ApiClient {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
 
-      const data = await response.json();
+      const responseText = await response.text();
+
+      // Check if response looks like SQL (starts with SELECT, INSERT, etc.)
+      if (responseText.trim().toUpperCase().startsWith('SELECT') ||
+          responseText.trim().toUpperCase().startsWith('INSERT') ||
+          responseText.trim().toUpperCase().startsWith('UPDATE')) {
+        console.error(`API Error [${endpoint}]: Backend returned SQL instead of JSON:`, responseText.substring(0, 100));
+        throw new Error(`Backend error: API endpoint returned invalid response. Please contact support.`);
+      }
+
+      let data;
+      try {
+        data = JSON.parse(responseText);
+      } catch (parseError) {
+        console.error(`API Error [${endpoint}]: Failed to parse JSON response:`, responseText.substring(0, 200));
+        throw new Error(`Invalid API response format. Expected JSON but got: ${responseText.substring(0, 50)}`);
+      }
 
       // Log the response for debugging
       console.log(`API Response [${endpoint}]:`, data);

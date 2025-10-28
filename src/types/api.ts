@@ -5,8 +5,11 @@ export interface LoginResponse {
   employee?: {
     empid?: string;
     empname?: string;
+    employee_name?: string;
     officeid?: string;
     officecode?: string;
+    officename?: string;
+    location?: string;
     token?: string;
     sessionid?: string;
   };
@@ -90,11 +93,31 @@ export interface SalesItemsResponse {
 }
 
 export interface Collection {
-  id: string;
-  amount: number;
-  date: string;
-  customerid: string;
-  customername: string;
+  receiptid?: string;
+  rdate?: string;
+  customer_id?: string;
+  project_id?: string | null;
+  daccount_id?: string;
+  caccount_id?: string;
+  amount?: string | number;
+  payment?: string;
+  chequeno?: string;
+  chequedate?: string;
+  voucher_typeid?: string;
+  remarks?: string;
+  account_name?: string;
+  acc_name?: string;
+  customer_name?: string;
+  mobileno?: string;
+  whatsappno?: string;
+  msg?: string;
+  flag?: boolean;
+
+  // Legacy/fallback fields
+  id?: string;
+  date?: string;
+  customerid?: string;
+  customername?: string;
 }
 
 export interface CollectionsResponse {
@@ -113,6 +136,7 @@ export interface Stock {
   rate?: number;
   brand?: string;
   category?: string;
+  status?: string;
 }
 
 export interface StocksResponse {
@@ -263,12 +287,51 @@ export interface CreditAgingResponse {
   error?: string;
 }
 
+// Dashboard Summary Types
+export interface DashboardSummary {
+  totalcollected?: number | string;
+  receiptamount?: number | string;
+  chequeamount?: number | string;
+  collectionamt?: number | string;
+  collectionrpamt?: number | string;
+  collectioncqamt?: number | string;
+  receiptamt?: number | string;
+  pdcamt?: number | string;
+  [key: string]: any;
+}
+
+export interface RecentCollection {
+  collectionid?: string | number;
+  collectionamt?: number | string;
+  collectiontype?: string;
+  collectionstatus?: string;
+  collectiondate?: string;
+  receiptno?: string;
+  chequeno?: string;
+  customer_name?: string;
+  customername?: string;
+  [key: string]: any;
+}
+
+export interface DashboardResponse {
+  flag: boolean;
+  msg: string;
+  summary?: DashboardSummary;
+  data?: DashboardSummary;
+  userdashboard?: DashboardSummary;
+  recentcollection?: RecentCollection[];
+  error?: string;
+}
+
 // Auth Context Types
 export interface AuthUser {
   userid: string;
   username: string;
   officeid: string;
   officecode: string;
+  employee_name?: string;
+  officename?: string;
+  location?: string;
   token?: string;
   sessionid?: string;
 }

@@ -46,6 +46,9 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
           username: response.employee.empname || "",
           officeid: response.employee.officeid || "",
           officecode: officecode || response.employee.officecode || "",
+          employee_name: response.employee.employee_name || response.employee.empname || "",
+          officename: response.employee.officename || "",
+          location: response.employee.location || "",
           token: response.employee.token,
           sessionid: response.employee.sessionid,
         };

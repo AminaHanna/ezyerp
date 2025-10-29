@@ -42,13 +42,20 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
       if (response.flag && response.employee) {
         console.log("AuthContext: Login successful, setting user data...");
         const userData: AuthUser = {
-          userid: response.employee.empid || "",
-          username: response.employee.empname || "",
+          userid: response.employee.userid || response.employee.empid || "",
+          username: response.employee.username || response.employee.empname || "",
           officeid: response.employee.officeid || "",
-          officecode: officecode || response.employee.officecode || "",
+          officecode: officecode,
           employee_name: response.employee.employee_name || response.employee.empname || "",
           officename: response.employee.officename || "",
           location: response.employee.location || "",
+          usertype: response.employee.usertype || "",
+          office_address: response.employee.office_address || "",
+          office_mobileno: response.employee.office_mobileno || "",
+          office_emailid: response.employee.office_emailid || "",
+          state_name: response.employee.state_name || "",
+          financialyear: response.employee.financialyear || "",
+          image_url: response.employee.image_url || "",
           token: response.employee.token,
           sessionid: response.employee.sessionid,
         };

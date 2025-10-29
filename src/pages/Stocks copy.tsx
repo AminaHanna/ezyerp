@@ -67,16 +67,16 @@ const Stocks = () => {
   }, [stocks, searchQuery]);
 
   // Get stock status badge
-  const getStockStatus = (stockqty: number | string | undefined) => {
-    const qty = parseFloat(String(stockqty || 0));
-    if (qty === 0) return { label: "Out of Stock", variant: "destructive" as const, bgClass: "bg-red-100 text-red-800 border-red-200" };
-    if (qty < 10) return { label: "Low Stock", variant: "outline" as const, bgClass: "bg-yellow-100 text-yellow-800 border-yellow-300" };
-    return { label: "In Stock", variant: "outline" as const, bgClass: "bg-green-100 text-green-800 border-green-300" };
+  const getStockStatus = (quantity: number | undefined) => {
+    const qty = quantity || 0;
+    if (qty === 0) return { label: "Out of Stock", color: "destructive" };
+    if (qty < 10) return { label: "Low Stock", color: "warning" };
+    return { label: "In Stock", color: "default" };
   };
 
   // Get stock status icon color
-  const getStatusColor = (stockqty: number | string | undefined) => {
-    const qty = parseFloat(String(stockqty || 0));
+  const getStatusColor = (quantity: number | undefined) => {
+    const qty = quantity || 0;
     if (qty === 0) return "text-red-600";
     if (qty < 10) return "text-yellow-600";
     return "text-green-600";
@@ -161,8 +161,8 @@ const Stocks = () => {
       {!isLoading && !error && filteredStocks.length > 0 && (
         <div className="px-4 py-6 space-y-3">
           {filteredStocks.map((stock, index) => {
-            const status = getStockStatus(stock.stockqty);
-            const statusColor = getStatusColor(stock.stockqty);
+            const status = getStockStatus(stock.quantity);
+            const statusColor = getStatusColor(stock.quantity);
 
             return (
               <Card
@@ -175,35 +175,46 @@ const Stocks = () => {
                     <h3 className="font-semibold text-foreground text-base mb-2 line-clamp-2">
                       {stock.productname || "N/A"}
                     </h3>
-                    <div className="flex gap-2 flex-col">
+                    <div className="flex gap-2 flex-wrap">
                       {stock.brand && (
-                        <Badge variant="secondary" className="text-xs w-fit">
+                        <Badge variant="secondary" className="text-xs">
                           {stock.brand}
                         </Badge>
                       )}
                       {stock.category && (
-                        <Badge variant="outline" className="text-xs w-fit">
+                        <Badge variant="outline" className="text-xs">
                           {stock.category}
                         </Badge>
                       )}
                     </div>
                   </div>
-                 
-                  <div className="flex flex-col items-end gap-2">
-                    <div className="text-right">
-                      {/* <p className="text-xs text-muted-foreground mb-1">Quantity</p> */}
-                      <p className={`font-bold text-2xl ${statusColor}`}>
-                        {parseFloat(String(stock.stockqty || 0)).toFixed(0)}
-                      </p>
-                    </div>
+                  {/* ,,,,,,,,,,,,,,,,, */}
+                  <div className="bg-gradient-to-r from-primary/10 to-primary/5 rounded-lg px-2 py-1">
+                    <p className="text-xs text-muted-foreground mb-1">Available Quantity</p>
+                    <span className={`font-bold text-2xl mr-1 ${statusColor}`}>
+                      {stock.quantity || 0}
+                    </span>
+                    <span className="text-xs text-muted-foreground">units in stock</span>
+                  </div>
+                  {/* ........... */}
+                  <div className="text-right">
                     <Badge
-                      variant={status.variant}
-                      className={status.bgClass}
+                      variant={status.color as any}
+                      className={`text-xs ${statusColor}`}
                     >
                       {status.label}
                     </Badge>
                   </div>
                 </div>
+
+                {/* Quantity Display */}
+                {/* <div className="bg-gradient-to-r from-primary/10 to-primary/5 rounded-lg px-3 py-3">
+                  <p className="text-xs text-muted-foreground mb-1">Available Quantity</p>
+                  <p className={`font-bold text-2xl ${statusColor}`}>
+                    {stock.quantity || 0}
+                  </p>
+                  <p className="text-xs text-muted-foreground mt-1">units in stock</p>
+                </div> */}
               </Card>
             );
           })}

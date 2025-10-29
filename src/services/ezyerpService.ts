@@ -117,6 +117,14 @@ export const collectionsService = {
   async createNewCollection(data: any): Promise<any> {
     return apiClient.post("newcollection.php", data);
   },
+
+  async createReceipt(data: any): Promise<any> {
+    return apiClient.post("newreceipt.php", data);
+  },
+
+  async deleteCollection(collectionId: string): Promise<any> {
+    return apiClient.post("deletecollection.php", { collectionid: collectionId });
+  },
 };
 
 // Legacy alias for backward compatibility

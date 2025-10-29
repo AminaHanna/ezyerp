@@ -3,13 +3,53 @@ export interface LoginResponse {
   flag: boolean;
   msg: string;
   employee?: {
+    userid?: string;
+    employeeid?: string;
+    status?: string;
+    employee_name?: string;
+    address?: string;
+    dob?: string;
+    gender?: string;
+    mobileno?: string;
+    whatsappno?: string;
+    emailid?: string;
+    join_date?: string;
+    photo?: string | null;
+    usertypeid?: string;
+    employee_status?: string;
+    officeid?: string;
+    gstno?: string;
+    officename?: string;
+    office_address?: string;
+    pincode?: string;
+    state_name?: string;
+    state_code?: string;
+    tin_no?: string;
+    country_name?: string;
+    country_code?: string;
+    location?: string;
+    office_mobileno?: string;
+    office_emailid?: string;
+    website?: string | null;
+    logo?: string | null;
+    officetypeid?: string;
+    officetype?: string;
+    usertype?: string;
+    username?: string;
+    country_id?: string;
+    state_id?: string;
+    fssai?: string | null;
+    off_status?: string;
+    financialyearid?: string;
+    financialyear?: string;
+    fystartdate?: string;
+    fyeenddate?: string;
+    fystatus?: string;
+    image_url?: string;
+    // Legacy fields for backward compatibility
     empid?: string;
     empname?: string;
-    employee_name?: string;
-    officeid?: string;
     officecode?: string;
-    officename?: string;
-    location?: string;
     token?: string;
     sessionid?: string;
   };
@@ -128,15 +168,17 @@ export interface CollectionsResponse {
 }
 
 export interface Stock {
-  id: string;
-  productname: string;
-  quantity: number;
-  price: number;
+  id?: string;
+  productname?: string;
+  quantity?: number;
+  stockqty?: number | string; // API returns stockqty field
+  price?: number;
   mrp?: number;
   rate?: number;
   brand?: string;
   category?: string;
   status?: string;
+  [key: string]: any; // Allow additional fields from API
 }
 
 export interface StocksResponse {
@@ -303,11 +345,15 @@ export interface DashboardSummary {
 export interface RecentCollection {
   collectionid?: string | number;
   collectionamt?: number | string;
+  amount?: number | string; // Added to support API response field
   collectiontype?: string;
   collectionstatus?: string;
   collectiondate?: string;
+  collection_date?: string; // Added to support API response field
   receiptno?: string;
   chequeno?: string;
+  ch_date?: string; // Added to support API response field
+  payment?: string; // Added to support API response field
   customer_name?: string;
   customername?: string;
   [key: string]: any;
@@ -328,10 +374,17 @@ export interface AuthUser {
   userid: string;
   username: string;
   officeid: string;
-  officecode: string;
+  officecode?: string;
   employee_name?: string;
   officename?: string;
   location?: string;
+  usertype?: string;
+  office_address?: string;
+  office_mobileno?: string;
+  office_emailid?: string;
+  state_name?: string;
+  financialyear?: string;
+  image_url?: string;
   token?: string;
   sessionid?: string;
 }

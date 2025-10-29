@@ -8,6 +8,7 @@ import {
   DollarSign,
   CheckCircle,
   Calendar,
+  Trash2,
 } from "lucide-react";
 import { BottomNavigation } from "@/components/BottomNavigation";
 import { Card } from "@/components/ui/card";
@@ -18,6 +19,17 @@ import { collectionsService } from "@/services/ezyerpService";
 import { useUserSession } from "@/hooks/useUserSession";
 import { Collection } from "@/types/api";
 import { formatDateForDisplay } from "@/utils/dateFormatter";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from "@/components/ui/alert-dialog";
+import { useToast } from "@/hooks/use-toast";
 
 const Collections = () => {
   const { officeid, officecode, empid } = useUserSession();
@@ -25,6 +37,10 @@ const Collections = () => {
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
   const isInitializedRef = useRef(false);
+  const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
+  const [collectionToDelete, setCollectionToDelete] = useState<Collection | null>(null);
+  const [isDeleting, setIsDeleting] = useState(false);
+  const { toast } = useToast();
 
   // Set default dates (current month)
   useEffect(() => {
@@ -92,6 +108,53 @@ const Collections = () => {
     if (type.includes("CHEQUE") || type.includes("CHQ")) return "Cheque";
     if (type.includes("NEFT") || type.includes("TRANSFER")) return "NEFT";
     return paymentType || "Other";
+  };
+
+  // Handle delete collection
+  const handleDeleteClick = (collection: Collection) => {
+    setCollectionToDelete(collection);
+    setDeleteDialogOpen(true);
+  };
+
+  const handleDeleteConfirm = async () => {
+    if (!collectionToDelete?.receiptid) {
+      toast({
+        title: "Error",
+        description: "Collection ID not found",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    setIsDeleting(true);
+    try {
+      const response = await collectionsService.deleteCollection(collectionToDelete.receiptid);
+
+      if (response.flag) {
+        toast({
+          title: "Success",
+          description: "Collection deleted successfully",
+        });
+        // Refresh the collections list
+        execute();
+      } else {
+        toast({
+          title: "Error",
+          description: response.msg || "Failed to delete collection",
+          variant: "destructive",
+        });
+      }
+    } catch (error) {
+      toast({
+        title: "Error",
+        description: "Failed to delete collection",
+        variant: "destructive",
+      });
+    } finally {
+      setIsDeleting(false);
+      setDeleteDialogOpen(false);
+      setCollectionToDelete(null);
+    }
   };
 
   return (
@@ -168,17 +231,27 @@ const Collections = () => {
               key={collection.receiptid || index}
               className="p-4 border-l-4 border-l-primary hover:shadow-md transition-shadow"
             >
-              {/* Header: Customer Name and Amount */}
+              {/* Header: Customer Name, Amount, and Delete Button */}
               <div className="flex items-start justify-between gap-3 mb-3">
                 <div className="flex-1">
                   <h3 className="font-semibold text-foreground text-sm line-clamp-2">
                     {collection.customer_name || "N/A"}
                   </h3>
                 </div>
-                <div className="text-right">
-                  <p className="font-bold text-primary text-lg">
-                    ₹ {parseFloat(String(collection.amount || 0)).toFixed(2)}
-                  </p>
+                <div className="flex items-center gap-2">
+                  <div className="text-right">
+                    <p className="font-bold text-primary text-lg">
+                      ₹ {parseFloat(String(collection.amount || 0)).toFixed(2)}
+                    </p>
+                  </div>
+                  <Button
+                    variant="ghost"
+                    size="icon"
+                    className="h-8 w-8 text-destructive hover:text-destructive hover:bg-destructive/10"
+                    onClick={() => handleDeleteClick(collection)}
+                  >
+                    <Trash2 className="h-4 w-4" />
+                  </Button>
                 </div>
               </div>
 
@@ -231,13 +304,13 @@ const Collections = () => {
 
       {/* Total Amount Footer */}
       {!isLoading && !error && collections.length > 0 && (
-        <div className="fixed bottom-20 left-0 right-0 bg-card border-t border-border px-4 py-3 shadow-lg">
+        <div className="fixed bottom-16 left-0 right-0 bg-card border-t border-border px-4 py-3 shadow-lg">
           <div className="flex items-center justify-between gap-4">
-            <div className="flex-1">
+            <div>
               <p className="text-xs text-muted-foreground">Total Collections</p>
               <p className="text-sm font-semibold text-foreground">{collections.length} items</p>
             </div>
-            <div className="flex-1 text-right">
+            <div className="text-right">
               <p className="text-xs text-muted-foreground">Total Amount</p>
               <p className="text-2xl font-bold text-primary">₹ {totalAmount.toFixed(2)}</p>
             </div>
@@ -246,6 +319,51 @@ const Collections = () => {
       )}
 
       <BottomNavigation />
+
+      {/* Delete Confirmation Dialog */}
+      <AlertDialog open={deleteDialogOpen} onOpenChange={setDeleteDialogOpen}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>Delete Collection</AlertDialogTitle>
+            <AlertDialogDescription>
+              Are you sure you want to delete this collection?
+              {collectionToDelete && (
+                <div className="mt-2 p-3 bg-muted rounded-md">
+                  <p className="font-semibold text-foreground">
+                    {collectionToDelete.customer_name || "N/A"}
+                  </p>
+                  <p className="text-sm text-muted-foreground">
+                    Amount: ₹ {parseFloat(String(collectionToDelete.amount || 0)).toFixed(2)}
+                  </p>
+                  <p className="text-xs text-muted-foreground">
+                    Date: {collectionToDelete.rdate ? formatDateForDisplay(collectionToDelete.rdate) : "N/A"}
+                  </p>
+                </div>
+              )}
+              <p className="mt-2 text-destructive font-medium">
+                This action cannot be undone.
+              </p>
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel disabled={isDeleting}>Cancel</AlertDialogCancel>
+            <AlertDialogAction
+              onClick={handleDeleteConfirm}
+              disabled={isDeleting}
+              className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
+            >
+              {isDeleting ? (
+                <>
+                  <Loader className="w-4 h-4 mr-2 animate-spin" />
+                  Deleting...
+                </>
+              ) : (
+                "Delete"
+              )}
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
     </div>
   );
 };

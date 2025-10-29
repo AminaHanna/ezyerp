@@ -107,10 +107,12 @@ export const RecentCollections = ({
     <div className="space-y-3">
       {collections.map((collection, index) => {
         const statusBadge = getStatusBadge(collection);
-        const collectionType = collection.collectiontype || "";
-        const amount = collection.collectionamt;
-        const date = collection.collectiondate
-          ? formatDateForDisplay(collection.collectiondate)
+        const collectionType = collection.collectiontype || collection.payment || "";
+        // Use 'amount' field first (from API), fallback to 'collectionamt'
+        const amount = collection.amount || collection.collectionamt;
+        // Use 'collection_date' field first (from API), fallback to 'collectiondate'
+        const date = collection.collection_date || collection.collectiondate
+          ? formatDateForDisplay(collection.collection_date || collection.collectiondate || "")
           : "N/A";
         const refNo =
           collection.chequeno || collection.receiptno || `#${index + 1}`;

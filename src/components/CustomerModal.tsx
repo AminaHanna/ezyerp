@@ -18,7 +18,7 @@ const menuItems = [
   { icon: MapPin, label: "Location", path: "/location" },
   { icon: FileText, label: "Customer Statement", path: "/statement" },
   { icon: Clock, label: "Credit Age Report", path: "/credit-aging" },
-  { icon: Wallet, label: "Collection Entry", path: "/collection" },
+  { icon: Wallet, label: "Collection Entry", path: "/collection-entry" },
 ];
 
 export const CustomerModal = ({
@@ -29,12 +29,15 @@ export const CustomerModal = ({
 }: CustomerModalProps) => {
   const navigate = useNavigate();
 
-  const handleMenuClick = (path: string) => {
+  const handleMenuClick = (item: typeof menuItems[0]) => {
     onOpenChange(false);
-    if (path === "/statement" || path === "/credit-aging") {
-      navigate(`${path}/${customerId}`);
+
+    // Navigate to the appropriate page
+    if (item.path === "/statement" || item.path === "/credit-aging" || item.path === "/collection-entry") {
+      // Pass customer name via navigation state
+      navigate(`${item.path}/${customerId}`, { state: { customerName } });
     } else {
-      navigate(path);
+      navigate(item.path);
     }
   };
 
@@ -50,7 +53,7 @@ export const CustomerModal = ({
             return (
               <button
                 key={item.path}
-                onClick={() => handleMenuClick(item.path)}
+                onClick={() => handleMenuClick(item)}
                 className="w-full flex items-center gap-4 p-4 rounded-lg hover:bg-accent/50 transition-colors text-left"
               >
                 <div className="w-10 h-10 rounded-full bg-muted flex items-center justify-center">

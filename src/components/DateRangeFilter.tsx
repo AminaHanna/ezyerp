@@ -35,11 +35,11 @@ export const DateRangeFilter = ({ onApply, isLoading = false }: DateRangeFilterP
 
   return (
     <Card className="p-4 mb-4 bg-gradient-to-r from-primary/5 to-primary/10 border-primary/20">
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+      <div className="grid grid-cols-2 gap-3">
         {/* From Date */}
         <div className="flex-1 min-w-0">
-          <label className="block text-sm font-medium text-foreground mb-2">
-            <Calendar className="w-4 h-4 inline mr-2" />
+          <label className="block text-xs font-medium text-foreground mb-1.5">
+            <Calendar className="w-3 h-3 inline mr-1" />
             From Date
           </label>
           <Input
@@ -47,14 +47,14 @@ export const DateRangeFilter = ({ onApply, isLoading = false }: DateRangeFilterP
             value={fromDate}
             onChange={(e) => setFromDate(e.target.value)}
             disabled={isLoading}
-            className="w-full"
+            className="w-full text-sm"
           />
         </div>
 
         {/* To Date */}
         <div className="flex-1 min-w-0">
-          <label className="block text-sm font-medium text-foreground mb-2">
-            <Calendar className="w-4 h-4 inline mr-2" />
+          <label className="block text-xs font-medium text-foreground mb-1.5">
+            <Calendar className="w-3 h-3 inline mr-1" />
             To Date
           </label>
           <Input
@@ -62,7 +62,7 @@ export const DateRangeFilter = ({ onApply, isLoading = false }: DateRangeFilterP
             value={toDate}
             onChange={(e) => setToDate(e.target.value)}
             disabled={isLoading}
-            className="w-full"
+            className="w-full text-sm"
           />
         </div>
       </div>

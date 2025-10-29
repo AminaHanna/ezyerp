@@ -149,10 +149,10 @@ const Home = () => {
         {/* User Information Card */}
         <UserInfoCard
           user={user}
-          employeeName={user?.username}
-          officeName={user?.officecode}
-          location="Main Office"
-          userType="Administrator"
+          employeeName={user?.employee_name || user?.username}
+          officeName={user?.officename}
+          location={user?.location || user?.state_name || "Main Office"}
+          userType={user?.usertype || "User"}
         />
 
         {/* Collection Summary Section */}

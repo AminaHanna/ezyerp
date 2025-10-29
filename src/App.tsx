@@ -12,6 +12,7 @@ import CustomerStatement from "./pages/CustomerStatement";
 import CreditAging from "./pages/CreditAging";
 import Stocks from "./pages/Stocks";
 import Collections from "./pages/Collections";
+import CollectionEntry from "./pages/CollectionEntry";
 import More from "./pages/More";
 import NotFound from "./pages/NotFound";
 
@@ -71,6 +72,14 @@ const App = () => (
               element={
                 <ProtectedRoute>
                   <Collections />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/collection-entry/:customerId"
+              element={
+                <ProtectedRoute>
+                  <CollectionEntry />
                 </ProtectedRoute>
               }
             />

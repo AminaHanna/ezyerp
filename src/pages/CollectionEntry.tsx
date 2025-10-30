@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { ArrowLeft, Loader, Calendar, CreditCard, Banknote, DollarSign } from "lucide-react";
 import { Card } from "@/components/ui/card";
@@ -13,8 +13,10 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { useToast } from "@/components/ui/use-toast";
-import { collectionsService } from "@/services/ezyerpService";
+import { collectionsService, salesService } from "@/services/ezyerpService";
 import { useUserSession } from "@/hooks/useUserSession";
+import { useApi } from "@/hooks/useApi";
+import { Customer } from "@/types/api";
 
 const CollectionEntry = () => {
   const navigate = useNavigate();
@@ -22,6 +24,7 @@ const CollectionEntry = () => {
   const { toast } = useToast();
   const { officeid, officecode, userid } = useUserSession();
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [customer, setCustomer] = useState<Customer | null>(null);
 
   // Get customer name from navigation state or use customerId
   const customerName = (window.history.state?.usr?.customerName as string) || `Customer #${customerId}`;
@@ -45,6 +48,50 @@ const CollectionEntry = () => {
     remarks: "",
     custledger: "",
   });
+
+  // Create stable API function using useCallback
+  const getCustomersFunction = useCallback(
+    () => {
+      const params = {
+        officeid,
+        officecode,
+        financialyearid: "2",
+        empid: "2"
+      };
+      return salesService.getCustomers(params);
+    },
+    [officeid, officecode]
+  );
+
+  // Fetch customers from API
+  const { data, execute } = useApi(getCustomersFunction);
+
+  // Fetch customers on mount
+  useEffect(() => {
+    execute();
+  }, [execute]);
+
+  // Find the specific customer and populate custledger when data is loaded
+  useEffect(() => {
+    if (data?.customers && customerId) {
+      // Find customer by customerid (primary field)
+      const foundCustomer = data.customers.find(
+        (c) => String(c.customerid) === String(customerId)
+      );
+
+      if (foundCustomer) {
+        setCustomer(foundCustomer);
+
+        // Auto-populate custledger with account_id
+        if (foundCustomer.account_id) {
+          setFormData((prev) => ({
+            ...prev,
+            custledger: foundCustomer.account_id,
+          }));
+        }
+      }
+    }
+  }, [data, customerId]);
 
   // Handle input change
   const handleChange = (field: string, value: string) => {
@@ -213,7 +260,7 @@ const CollectionEntry = () => {
                 value={formData.amount}
                 onChange={(e) => handleChange("amount", e.target.value)}
                 required
-                className="text-base text-lg font-semibold"
+                className="text-lg font-semibold"
               />
             </div>
 

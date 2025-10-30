@@ -167,7 +167,7 @@ const Stocks = () => {
             return (
               <Card
                 key={index}
-                className="p-4 border-l-4 border-l-primary hover:shadow-md transition-shadow"
+                className="p-2 border-l-4 border-l-primary hover:shadow-md transition-shadow"
               >
                 {/* Product Header with Status */}
                 <div className="flex items-start justify-between gap-3 mb-3">

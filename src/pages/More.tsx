@@ -10,10 +10,10 @@ const More = () => {
 
   const menuItems = [
     { icon: Package, label: "Stocks", description: "Manage inventory and stock levels", action: () => navigate("/stocks") },
-    { icon: Settings, label: "Settings", description: "App preferences and configuration" },
-    { icon: Bell, label: "Notifications", description: "Manage your notifications" },
-    { icon: FileText, label: "Reports", description: "View business reports" },
-    { icon: HelpCircle, label: "Help & Support", description: "Get help and support" },
+    // { icon: Settings, label: "Settings", description: "App preferences and configuration" },
+    // { icon: Bell, label: "Notifications", description: "Manage your notifications" },
+    // { icon: FileText, label: "Reports", description: "View business reports" },
+    // { icon: HelpCircle, label: "Help & Support", description: "Get help and support" },
   ];
 
   const handleLogout = () => {

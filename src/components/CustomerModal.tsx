@@ -33,7 +33,7 @@ export const CustomerModal = ({
     onOpenChange(false);
 
     // Navigate to the appropriate page
-    if (item.path === "/statement" || item.path === "/credit-aging" || item.path === "/collection-entry") {
+    if (item.path === "/statement" || item.path === "/credit-aging" || item.path === "/collection-entry" || item.path === "/location") {
       // Pass customer name via navigation state
       navigate(`${item.path}/${customerId}`, { state: { customerName } });
     } else {

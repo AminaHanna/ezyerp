@@ -10,6 +10,7 @@ import Index from "./pages/Index";
 import Customers from "./pages/Customers";
 import CustomerStatement from "./pages/CustomerStatement";
 import CreditAging from "./pages/CreditAging";
+import Location from "./pages/Location";
 import Stocks from "./pages/Stocks";
 import Collections from "./pages/Collections";
 import CollectionEntry from "./pages/CollectionEntry";
@@ -56,6 +57,14 @@ const App = () => (
               element={
                 <ProtectedRoute>
                   <CreditAging />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/location/:customerId"
+              element={
+                <ProtectedRoute>
+                  <Location />
                 </ProtectedRoute>
               }
             />

@@ -2,7 +2,8 @@ import { useState } from "react";
 import { Phone, MessageCircle, MoreVertical } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { PhoneNumberDialog } from "@/components/PhoneNumberDialog";
-import { PhoneNumber, parsePhoneNumbers, initiateCall } from "@/utils/phoneUtils";
+import { PhoneNumber, parsePhoneNumbers, initiateCall, getWhatsAppNumber, openWhatsAppChat } from "@/utils/phoneUtils";
+import { useToast } from "@/components/ui/use-toast";
 
 interface CustomerCardProps {
   name: string;
@@ -24,9 +25,13 @@ export const CustomerCard = ({
   const isPositive = balance > 0;
   const isZero = balance === 0;
   const [showPhoneDialog, setShowPhoneDialog] = useState(false);
+  const { toast } = useToast();
 
   // Parse available phone numbers
   const phoneNumbers = parsePhoneNumbers(mobileno, whatsappno);
+
+  // Get WhatsApp number (prioritize whatsappno, fallback to mobileno)
+  const whatsappNumber = getWhatsAppNumber(whatsappno, mobileno);
 
   // Handle call button click
   const handleCallClick = (e: React.MouseEvent) => {
@@ -35,6 +40,29 @@ export const CustomerCard = ({
       setShowPhoneDialog(true);
     } else {
       setShowPhoneDialog(true);
+    }
+  };
+
+  // Handle WhatsApp button click
+  const handleWhatsAppClick = (e: React.MouseEvent) => {
+    e.stopPropagation(); // Prevent triggering the card's onClick
+
+    if (!whatsappNumber) {
+      toast({
+        title: "No WhatsApp Number",
+        description: "This customer doesn't have a WhatsApp number available.",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    const success = openWhatsAppChat(whatsappNumber);
+    if (!success) {
+      toast({
+        title: "Error",
+        description: "Failed to open WhatsApp. Please check the phone number.",
+        variant: "destructive",
+      });
     }
   };
 
@@ -70,7 +98,16 @@ export const CustomerCard = ({
             >
               <Phone className="w-5 h-5" />
             </button>
-            <button className="text-primary hover:text-primary-glow transition-colors">
+            <button
+              onClick={handleWhatsAppClick}
+              className={cn(
+                "transition-colors",
+                whatsappNumber
+                  ? "text-success hover:text-success/80"
+                  : "text-muted-foreground hover:text-muted-foreground/70 cursor-not-allowed"
+              )}
+              title={whatsappNumber ? "Chat on WhatsApp" : "No WhatsApp number available"}
+            >
               <MessageCircle className="w-5 h-5" />
             </button>
             <div className="flex flex-col items-end">
